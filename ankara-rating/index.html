@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ankara'daki mahalleleri, sokakları, apartmanları ve siteleri puanlayın ve yorum yapın.">
+  <title>Ankara Mekan Puanlama | Mahalle, Sokak, Apartman & Site</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ── HEADER ──────────────────────────────────────── -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-logo" onclick="goHome()">🏙️</div>
+      <div class="header-title" onclick="goHome()">
+        <h1>Ankara Mekan Puanlama</h1>
+        <p>Mahalle · Sokak · Apartman · Site</p>
+      </div>
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Mahalle, sokak veya bina ara...">
+      </div>
+    </div>
+  </header>
+
+  <!-- ── BREADCRUMB ───────────────────────────────────── -->
+  <nav class="breadcrumb">
+    <div class="breadcrumb-inner" id="breadcrumb">
+      <span class="breadcrumb-item" onclick="goHome()">🏠 Ana Sayfa</span>
+    </div>
+  </nav>
+
+  <!-- ── MAIN ─────────────────────────────────────────── -->
+  <main class="app-main">
+
+    <!-- ── HOME PAGE ─────────────────────────────────── -->
+    <section id="page-home" class="page">
+      <div class="hero">
+        <h2>Ankara'yı Keşfet & Puanla</h2>
+        <p>Mahallenizi, sokağınızı, apartmanınızı veya sitenizi puanlayın. Diğerleriyle deneyimlerinizi paylaşın.</p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong id="stat-total">—</strong>
+            <span>Toplam Lokasyon</span>
+          </div>
+          <div class="hero-stat">
+            <strong id="stat-rated">—</strong>
+            <span>Puanlanan</span>
+          </div>
+          <div class="hero-stat">
+            <strong id="stat-ilce">—</strong>
+            <span>İlçe</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- İlçeler -->
+      <div class="section-header">
+        <div>
+          <div class="section-title">🏛️ Ankara İlçeleri</div>
+          <div class="section-subtitle">Bir ilçe seçerek mahalleleri ve yerleri görüntüleyin</div>
+        </div>
+      </div>
+      <div class="ilce-grid" id="ilce-grid"></div>
+
+      <!-- En Yüksek Puanlılar -->
+      <div class="section-header">
+        <div>
+          <div class="section-title">🏆 En Yüksek Puanlılar</div>
+          <div class="section-subtitle">Kullanıcılar tarafından en çok beğenilen yerler</div>
+        </div>
+      </div>
+      <div id="recent-rated"></div>
+    </section>
+
+    <!-- ── ILCE PAGE ──────────────────────────────────── -->
+    <section id="page-ilce" class="page">
+      <div class="detail-header" style="margin-bottom:20px">
+        <div class="detail-title-row">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span id="ilce-icon-big" style="font-size:2.5rem"></span>
+            <div>
+              <div class="detail-title" id="ilce-title"></div>
+              <div style="font-size:0.88rem;color:var(--gray-500);margin-top:2px" id="ilce-desc"></div>
+            </div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="goHome()">← Geri</button>
+        </div>
+      </div>
+
+      <div class="filter-bar" id="filter-bar"></div>
+      <div id="ilce-locations"></div>
+    </section>
+
+    <!-- ── DETAIL PAGE ────────────────────────────────── -->
+    <section id="page-detail" class="page">
+      <!-- Location Header -->
+      <div class="detail-header">
+        <div class="detail-title-row">
+          <h2 class="detail-title" id="detail-title"></h2>
+          <span class="detail-type-badge" id="detail-type-badge"></span>
+        </div>
+        <div class="detail-meta" id="detail-meta"></div>
+        <button class="btn btn-secondary btn-sm" onclick="history.back ? (window.history.length > 1 ? window.history.back() : goHome()) : goHome()">← Geri</button>
+      </div>
+
+      <!-- Score Section -->
+      <div class="rating-section">
+        <div class="section-divider">📊 Puan Özeti</div>
+        <div id="score-section"></div>
+      </div>
+
+      <!-- Rating Form -->
+      <div class="rating-section">
+        <div class="section-divider">⭐ Puan Ver & Yorum Yap</div>
+        <p style="font-size:0.83rem;color:var(--gray-500);margin-bottom:16px">
+          Her kategori için 1-5 yıldız arasında puan verebilir, isterseniz yorum da ekleyebilirsiniz.
+        </p>
+        <div id="rating-form-container"></div>
+      </div>
+
+      <!-- Comments -->
+      <div class="comments-section">
+        <div class="section-divider" id="comments-count">💬 Yorumlar</div>
+        <div class="comment-list" id="comments-list"></div>
+      </div>
+    </section>
+
+    <!-- ── SEARCH PAGE ────────────────────────────────── -->
+    <section id="page-search" class="page">
+      <div class="search-results-header">
+        <div class="search-query" id="search-query-text"></div>
+        <div class="result-count" id="search-result-count"></div>
+      </div>
+      <div id="search-results-grid"></div>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ────────────────────────────────────────── -->
+  <footer class="app-footer">
+    <strong>Ankara Mekan Puanlama</strong> · Mahalle, Sokak, Apartman ve Site Değerlendirme Platformu<br>
+    Tüm puanlar ve yorumlar tarayıcınızda yerel olarak saklanmaktadır.
+  </footer>
+
+  <!-- ── TOAST CONTAINER ───────────────────────────────── -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ── SCRIPTS ───────────────────────────────────────── -->
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
